@@ -10,7 +10,7 @@ import java.util.Map;
  * 商品评价
  *
  * @author chenyk
- * @email 18061446901@163.com
+ * @email chen.yukang@qq.com
  * @date 2024-06-04 20:30:17
  */
 public interface SpuCommentService extends IService<SpuCommentEntity> {
