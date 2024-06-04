@@ -27,6 +27,8 @@
         <module>gulimall-member</module>
         <module>gulimall-coupon</module>
         <module>gulimall-devops</module>
+        <module>renren-fast</module>
+        <module>renren-fast-vue</module>
     </modules>
 
     <dependencies>
