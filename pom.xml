@@ -36,6 +36,7 @@
         <module>renren-fast-vue</module>
         <module>renren-generator</module>
         <module>gulimall-common</module>
+        <module>gulimall-gateway</module>
     </modules>
 
     <dependencies>

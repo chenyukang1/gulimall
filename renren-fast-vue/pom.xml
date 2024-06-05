@@ -9,8 +9,10 @@
     <description>renren-fast-vue</description>
 
     <properties>
-      <maven.compiler.source>17</maven.compiler.source>
-      <maven.compiler.target>17</maven.compiler.target>
+      <java.version>8</java.version>
+      <maven.compiler.source>8</maven.compiler.source>
+      <maven.compiler.target>8</maven.compiler.target>
+      <maven.compiler.compilerVersion>8</maven.compiler.compilerVersion>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
