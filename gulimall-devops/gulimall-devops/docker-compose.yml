@@ -71,14 +71,10 @@ services:
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_USER: cyk
       MYSQL_PASSWORD: 123456
-    networks:
-      - gulimall-network
-    depends_on:
-      - mysql-job-dbdata
     ports:
       - "13306:3306"
-    volumes:
-      - ./sql:/docker-entrypoint-initdb.d
+#    volumes:
+#      - ./sql:/docker-entrypoint-initdb.d
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       interval: 5s
@@ -90,15 +86,34 @@ services:
         limits:
           cpus: '1.00'
           memory: 512M
-#    volumes_from:
-#      - mysql-job-dbdata
+    depends_on:
+      - mysql-job-dbdata
+    volumes_from:
+      - mysql-job-dbdata
+    networks:
+      - gulimall-network
 
   # 自动加载数据
-#  mysql-job-dbdata:
-#    image: alpine:3.18.2
-#    container_name: mysql-job-dbdata
-#    volumes:
-#      - /var/lib/mysql
+  mysql-job-dbdata:
+    image: alpine:3.18.2
+    container_name: mysql-job-dbdata
+    volumes:
+      - /var/lib/mysql
+
+  nacos:
+    image: nacos/nacos-server:v2.1.2
+    container_name: nacos-standalone-mysql
+    env_file:
+      - nacos/env/nacos-standalone-mysql.env
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: always
+    networks:
+      - gulimall-network
 
   # phpmyadmin https://hub.docker.com/_/phpmyadmin
 #  phpmyadmin:
