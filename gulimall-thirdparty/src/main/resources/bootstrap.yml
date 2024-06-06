@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        namespace: dd75e200-e209-40fc-8dee-a1dbccce2af8
+    alicloud:
+      access-key: LTAI5t6oEoH8HGijiwKq27u3
+      secret-key: upB0hZ0KC2nmKy2XAanenyLIoaSGYH
+      oss:
+        endpoint: oss-cn-nanjing.aliyuncs.com
+        bucket: gulimall-chenyk
