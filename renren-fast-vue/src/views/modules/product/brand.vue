@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
   <div class="mod-config">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">

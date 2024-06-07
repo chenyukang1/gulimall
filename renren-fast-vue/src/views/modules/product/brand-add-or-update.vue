@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
   <el-dialog
     :title="!dataForm.id ? '新增' : '修改'"

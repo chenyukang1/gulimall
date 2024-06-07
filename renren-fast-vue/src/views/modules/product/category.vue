@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
   <div>
     <el-switch v-model="draggable" active-text="开启拖拽" inactive-text="关闭拖拽"></el-switch>
