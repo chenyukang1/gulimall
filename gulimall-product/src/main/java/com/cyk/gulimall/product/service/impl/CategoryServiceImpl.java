@@ -7,7 +7,9 @@ import com.cyk.common.utils.PageUtils;
 import com.cyk.common.utils.Query;
 import com.cyk.gulimall.product.dao.CategoryDao;
 import com.cyk.gulimall.product.entity.CategoryEntity;
+import com.cyk.gulimall.product.service.CategoryBrandRelationService;
 import com.cyk.gulimall.product.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -16,6 +18,9 @@ import java.util.stream.Collectors;
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+    @Autowired
+    CategoryBrandRelationService categoryBrandRelationService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -63,6 +68,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         Collections.reverse(parentPath);
 
         return parentPath.toArray(new Long[0]);
+    }
+
+    @Override
+    public void updateCascade(CategoryEntity category) {
+        updateById(category);
+        categoryBrandRelationService.updateCategory(category.getCatId(), category.getName());
     }
 
     private List<Long> findParentPath(Long catelogId, List<Long> paths) {

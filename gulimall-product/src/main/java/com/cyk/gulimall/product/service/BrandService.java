@@ -3,6 +3,7 @@ package com.cyk.gulimall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.cyk.common.utils.PageUtils;
 import com.cyk.gulimall.product.entity.BrandEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -16,5 +17,8 @@ import java.util.Map;
 public interface BrandService extends IService<BrandEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    @Transactional(rollbackFor = Exception.class)
+    void updateDetail(BrandEntity brand);
 }
 

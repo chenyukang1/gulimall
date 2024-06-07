@@ -1,5 +1,6 @@
 package com.cyk.gulimall.product.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cyk.common.utils.PageUtils;
 import com.cyk.common.utils.R;
 import com.cyk.gulimall.product.entity.CategoryBrandRelationEntity;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -24,6 +26,17 @@ import java.util.Map;
 public class CategoryBrandRelationController {
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
+
+    /**
+     * 获取当前品牌关联的所有分类
+     */
+    @GetMapping(value = "/catelog/list")
+    public R catelogList(@RequestParam("brandId") Long brandId){
+        List<CategoryBrandRelationEntity> data = categoryBrandRelationService.
+                list(new QueryWrapper<CategoryBrandRelationEntity>().eq("brand_id",brandId));
+
+        return R.ok().put("data", data);
+    }
 
     /**
      * 列表
@@ -51,7 +64,7 @@ public class CategoryBrandRelationController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody CategoryBrandRelationEntity categoryBrandRelation){
-		categoryBrandRelationService.save(categoryBrandRelation);
+        categoryBrandRelationService.saveDetail(categoryBrandRelation);
 
         return R.ok();
     }
