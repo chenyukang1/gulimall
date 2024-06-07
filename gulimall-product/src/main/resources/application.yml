@@ -7,11 +7,11 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: 114.55.150.242:8848
   datasource:
     username: 'root'
     password: '123456'
-    url: jdbc:mysql://localhost:13306/gulimall_pms
+    url: jdbc:mysql://114.55.150.242:3306/gulimall_pms
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 mybatis-plus:
