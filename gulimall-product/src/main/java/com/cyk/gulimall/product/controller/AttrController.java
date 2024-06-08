@@ -4,6 +4,7 @@ import com.cyk.common.utils.PageUtils;
 import com.cyk.common.utils.R;
 import com.cyk.gulimall.product.entity.AttrEntity;
 import com.cyk.gulimall.product.service.AttrService;
+import com.cyk.gulimall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,8 +51,8 @@ public class AttrController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody AttrEntity attr){
-		attrService.save(attr);
+    public R save(@RequestBody AttrVo attrVo){
+        attrService.saveAttr(attrVo);
 
         return R.ok();
     }
