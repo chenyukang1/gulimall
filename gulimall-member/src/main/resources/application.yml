@@ -2,13 +2,21 @@ server:
   port: 13000
 
 spring:
+  application:
+    name: gulimall-member
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 114.55.150.242:8848
   datasource:
     username: 'root'
     password: '123456'
-    url: jdbc:mysql://localhost:13306/gulimall_ums
+    url: jdbc:mysql://114.55.150.242:3306/gulimall_ums
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
       id-type: auto
