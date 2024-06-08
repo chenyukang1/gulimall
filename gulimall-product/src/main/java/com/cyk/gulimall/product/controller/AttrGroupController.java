@@ -4,6 +4,7 @@ import com.cyk.common.utils.PageUtils;
 import com.cyk.common.utils.R;
 import com.cyk.gulimall.product.entity.AttrEntity;
 import com.cyk.gulimall.product.entity.AttrGroupEntity;
+import com.cyk.gulimall.product.service.AttrAttrgroupRelationService;
 import com.cyk.gulimall.product.service.AttrGroupService;
 import com.cyk.gulimall.product.service.AttrService;
 import com.cyk.gulimall.product.service.CategoryService;
@@ -35,6 +36,9 @@ public class AttrGroupController {
 
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    private AttrAttrgroupRelationService attrAttrgroupRelationService;
 
     /**
      * 列表
@@ -86,6 +90,16 @@ public class AttrGroupController {
         attrGroup.setCatelogPath(path);
 
         return R.ok().put("attrGroup", attrGroup);
+    }
+
+    ///product/attrgroup/attr/relation
+    @PostMapping(value = "/attr/relation")
+    public R addRelation(@RequestBody List<AttrGroupRelationVo> vos) {
+
+        attrAttrgroupRelationService.saveBatch(vos);
+
+        return R.ok();
+
     }
 
     /**
