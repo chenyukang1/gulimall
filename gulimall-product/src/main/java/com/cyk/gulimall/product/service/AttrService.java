@@ -3,6 +3,7 @@ package com.cyk.gulimall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.cyk.common.utils.PageUtils;
 import com.cyk.gulimall.product.entity.AttrEntity;
+import com.cyk.gulimall.product.vo.AttrRespVo;
 import com.cyk.gulimall.product.vo.AttrVo;
 
 import java.util.Map;
@@ -21,5 +22,9 @@ public interface AttrService extends IService<AttrEntity> {
     void saveAttr(AttrVo attrVo);
 
     PageUtils queryBaseAttrPage(Map<String, Object> params, Long catelogId);
+
+    AttrRespVo getAttrInfo(Long attrId);
+
+    void updateAttrById(AttrVo attrVo);
 }
 

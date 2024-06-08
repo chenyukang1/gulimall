@@ -1,17 +1,21 @@
 package com.cyk.gulimall.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cyk.common.utils.PageUtils;
 import com.cyk.common.utils.Query;
 import com.cyk.gulimall.product.dao.AttrAttrgroupRelationDao;
 import com.cyk.gulimall.product.dao.AttrDao;
+import com.cyk.gulimall.product.dao.AttrGroupDao;
 import com.cyk.gulimall.product.dao.CategoryDao;
 import com.cyk.gulimall.product.entity.AttrAttrgroupRelationEntity;
 import com.cyk.gulimall.product.entity.AttrEntity;
+import com.cyk.gulimall.product.entity.AttrGroupEntity;
 import com.cyk.gulimall.product.entity.CategoryEntity;
 import com.cyk.gulimall.product.service.AttrService;
+import com.cyk.gulimall.product.service.CategoryService;
 import com.cyk.gulimall.product.vo.AttrRespVo;
 import com.cyk.gulimall.product.vo.AttrVo;
 import org.apache.commons.lang3.StringUtils;
@@ -33,6 +37,12 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
     @Resource
     private CategoryDao categoryDao;
+
+    @Resource
+    private AttrGroupDao attrGroupDao;
+
+    @Resource
+    private CategoryService categoryService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -94,6 +104,64 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         }).collect(Collectors.toList());
         pageUtils.setList(respVos);
         return pageUtils;
+    }
+
+    @Override
+    public AttrRespVo getAttrInfo(Long attrId) {
+        //查询详细信息
+        AttrEntity attrEntity = this.getById(attrId);
+
+        //查询分组信息
+        AttrRespVo respVo = new AttrRespVo();
+        BeanUtils.copyProperties(attrEntity,respVo);
+
+        //1、设置分组信息
+        AttrAttrgroupRelationEntity relationEntity = relationDao.selectOne
+                (new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attrId));
+        if (relationEntity != null) {
+            respVo.setAttrGroupId(relationEntity.getAttrGroupId());
+            //获取分组名称
+            AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(relationEntity.getAttrGroupId());
+            if (attrGroupEntity != null) {
+                respVo.setGroupName(attrGroupEntity.getAttrGroupName());
+            }
+        }
+
+        //2、设置分类信息
+        Long catelogId = attrEntity.getCatelogId();
+        Long[] catelogPath = categoryService.findCatelogPath(catelogId);
+
+        respVo.setCatelogPath(catelogPath);
+        CategoryEntity categoryEntity = categoryDao.selectById(catelogId);
+        if (categoryEntity != null) {
+            respVo.setCatelogName(categoryEntity.getName());
+        }
+
+        return respVo;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateAttrById(AttrVo attr) {
+        AttrEntity attrEntity = new AttrEntity();
+        BeanUtils.copyProperties(attr,attrEntity);
+
+        this.updateById(attrEntity);
+
+        //1、修改分组关联
+        AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
+        relationEntity.setAttrGroupId(attr.getAttrGroupId());
+        relationEntity.setAttrId(attr.getAttrId());
+
+        Integer count = relationDao.selectCount(new QueryWrapper<AttrAttrgroupRelationEntity>()
+                .eq("attr_id", attr.getAttrId()));
+
+        if (count > 0) {
+            relationDao.update(relationEntity,
+                    new UpdateWrapper<AttrAttrgroupRelationEntity>().eq("attr_id",attr.getAttrId()));
+        } else {
+            relationDao.insert(relationEntity);
+        }
     }
 
 }
