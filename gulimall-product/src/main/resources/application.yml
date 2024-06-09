@@ -13,6 +13,8 @@ spring:
     password: '123456'
     url: jdbc:mysql://114.55.150.242:3306/gulimall_pms
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
 
 mybatis-plus:
   configuration:
