@@ -2,13 +2,16 @@ package com.cyk.gulimall.product.controller;
 
 import com.cyk.common.utils.PageUtils;
 import com.cyk.common.utils.R;
+import com.cyk.gulimall.product.entity.ProductAttrValueEntity;
 import com.cyk.gulimall.product.service.AttrService;
+import com.cyk.gulimall.product.service.ProductAttrValueService;
 import com.cyk.gulimall.product.vo.AttrRespVo;
 import com.cyk.gulimall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -23,8 +26,23 @@ import java.util.Map;
 @RestController
 @RequestMapping("product/attr")
 public class AttrController {
+
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    private ProductAttrValueService productAttrValueService;
+
+    /**
+     *  获取spu规格
+     */
+    @GetMapping("/base/listforspu/{spuId}")
+    public R baseAttrlistforspu(@PathVariable("spuId") Long spuId){
+
+        List<ProductAttrValueEntity> entities = productAttrValueService.baseAttrListforspu(spuId);
+
+        return R.ok().put("data",entities);
+    }
 
     /**
      * 查询规格参数信息
@@ -71,6 +89,17 @@ public class AttrController {
     @RequestMapping("/save")
     public R save(@RequestBody AttrVo attrVo){
         attrService.saveAttr(attrVo);
+
+        return R.ok();
+    }
+
+    ///product/attr/update/{spuId}
+    @PostMapping("/update/{spuId}")
+    //@RequiresPermissions("product:attr:update")
+    public R updateSpuAttr(@PathVariable("spuId") Long spuId,
+                           @RequestBody List<ProductAttrValueEntity> entities){
+
+        productAttrValueService.updateSpuAttr(spuId,entities);
 
         return R.ok();
     }
