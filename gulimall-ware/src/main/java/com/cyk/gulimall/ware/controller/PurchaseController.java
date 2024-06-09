@@ -5,10 +5,12 @@ import com.cyk.common.utils.R;
 import com.cyk.gulimall.ware.entity.PurchaseEntity;
 import com.cyk.gulimall.ware.service.PurchaseService;
 import com.cyk.gulimall.ware.vo.MergeVo;
+import com.cyk.gulimall.ware.vo.PurchaseDoneVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -52,6 +54,32 @@ public class PurchaseController {
 		PurchaseEntity purchase = purchaseService.getById(id);
 
         return R.ok().put("purchase", purchase);
+    }
+
+    /**
+     * 领取采购单
+     * @param ids
+     * @return
+     */
+    @PostMapping(value = "/received")
+    public R received(@RequestBody List<Long> ids) {
+
+        purchaseService.received(ids);
+
+        return R.ok();
+    }
+
+    /**
+     * 完成采购单
+     * @param doneVo
+     * @return
+     */
+    @PostMapping(value = "/done")
+    public R finish(@RequestBody PurchaseDoneVo doneVo) {
+
+        purchaseService.done(doneVo);
+
+        return R.ok();
     }
 
     /**
