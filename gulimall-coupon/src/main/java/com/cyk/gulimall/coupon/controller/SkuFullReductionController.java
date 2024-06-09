@@ -1,19 +1,15 @@
 package com.cyk.gulimall.coupon.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.cyk.gulimall.coupon.entity.SkuFullReductionEntity;
-import com.cyk.gulimall.coupon.service.SkuFullReductionService;
+import com.cyk.common.to.SkuReductionTo;
 import com.cyk.common.utils.PageUtils;
 import com.cyk.common.utils.R;
+import com.cyk.gulimall.coupon.entity.SkuFullReductionEntity;
+import com.cyk.gulimall.coupon.service.SkuFullReductionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 
@@ -49,6 +45,14 @@ public class SkuFullReductionController {
 		SkuFullReductionEntity skuFullReduction = skuFullReductionService.getById(id);
 
         return R.ok().put("skuFullReduction", skuFullReduction);
+    }
+
+    @PostMapping("/saveinfo")
+    public R saveInfo(@RequestBody SkuReductionTo skuReductionTo){
+
+        skuFullReductionService.saveSkuReduction(skuReductionTo);
+
+        return R.ok();
     }
 
     /**
