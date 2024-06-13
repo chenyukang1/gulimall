@@ -2,7 +2,7 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 114.55.150.242:8848
+        server-addr: 116.198.200.0:8848
         namespace: 79f9ba9a-45b5-42ab-ac34-57c31ddbb915
     alicloud:
       access-key: LTAI5t6oEoH8HGijiwKq27u3
