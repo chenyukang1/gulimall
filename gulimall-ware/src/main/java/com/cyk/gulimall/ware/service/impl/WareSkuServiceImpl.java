@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cyk.common.utils.PageUtils;
 import com.cyk.common.utils.Query;
 import com.cyk.common.utils.R;
+import com.cyk.common.vo.SkuHasStockVo;
 import com.cyk.gulimall.ware.dao.WareSkuDao;
 import com.cyk.gulimall.ware.entity.WareSkuEntity;
 import com.cyk.gulimall.ware.feign.ProductFeignService;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service("wareSkuService")
@@ -58,7 +60,7 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
         List<WareSkuEntity> wareSkuEntities = wareSkuDao.selectList(
                 new QueryWrapper<WareSkuEntity>().eq("sku_id", skuId).eq("ware_id", wareId));
 
-        if (wareSkuEntities == null || wareSkuEntities.size() == 0) {
+        if (wareSkuEntities == null || wareSkuEntities.isEmpty()) {
             WareSkuEntity wareSkuEntity = new WareSkuEntity();
             wareSkuEntity.setSkuId(skuId);
             wareSkuEntity.setStock(skuNum);
@@ -82,6 +84,17 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             wareSkuDao.addStock(skuId,wareId,skuNum);
         }
 
+    }
+
+    @Override
+    public List<SkuHasStockVo> getSkuHasStock(List<Long> skuIds) {
+        return skuIds.stream().map(item -> {
+            Long count = this.baseMapper.getSkuStock(item);
+            SkuHasStockVo skuHasStockVo = new SkuHasStockVo();
+            skuHasStockVo.setSkuId(item);
+            skuHasStockVo.setHasStock(count != null && count > 0);
+            return skuHasStockVo;
+        }).collect(Collectors.toList());
     }
 
 }
