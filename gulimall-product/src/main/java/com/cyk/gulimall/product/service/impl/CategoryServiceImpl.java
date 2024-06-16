@@ -78,6 +78,16 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         categoryBrandRelationService.updateCategory(category.getCatId(), category.getName());
     }
 
+    @Override
+    public List<CategoryEntity> getLevel1Categorys() {
+        System.out.println("getLevel1Categorys........");
+        long l = System.currentTimeMillis();
+        List<CategoryEntity> categoryEntities = this.baseMapper.selectList(
+                new QueryWrapper<CategoryEntity>().eq("parent_cid", 0));
+        System.out.println("消耗时间："+ (System.currentTimeMillis() - l));
+        return categoryEntities;
+    }
+
     private List<Long> findParentPath(Long catelogId, List<Long> paths) {
 
         //1、收集当前节点id
