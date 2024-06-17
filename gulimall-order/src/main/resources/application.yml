@@ -17,6 +17,9 @@ spring:
       simple:
         acknowledge-mode: manual
 
+  thymeleaf:
+    cache: false
+
 mybatis-plus:
   global-config:
     db-config:
