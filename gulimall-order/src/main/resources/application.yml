@@ -8,6 +8,15 @@ spring:
     url: jdbc:mysql://localhost:13306/gulimall_oms
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  rabbitmq:
+    host:
+    port: 5672
+    publisher-confirms: true
+    publisher-returns: true
+    listener:
+      simple:
+        acknowledge-mode: manual
+
 mybatis-plus:
   global-config:
     db-config:
