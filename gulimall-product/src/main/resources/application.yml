@@ -13,6 +13,10 @@ spring:
     password: '123456'
     url: jdbc:mysql://116.198.200.0:3306/gulimall_pms
     driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 116.198.200.0
+    port: 6379
+    password: 123456
   #关闭thymeleaf缓存
   thymeleaf:
     cache: false
